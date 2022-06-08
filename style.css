@@ -148,14 +148,17 @@ input {
 }
 
 #submit, #save {
+    font-size: large;
     grid-column: 2 / 3;
     padding: 5px;
     width: 150px;
-}
+    border: 3px solid black;
+    background-color: white;
+    border-radius: 20px;
+}   
 
 #submit:hover, #save:hover {
     background-color: #86efac;
-    border: 3px solid #86efac;
 }
 
 #read-status {

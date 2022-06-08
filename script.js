@@ -6,7 +6,7 @@ const body = document.querySelector('body');
 const container = document.querySelector('.container');
 const books = document.querySelector('#books');
 
-const option = document.createElement('div');
+const option = document.createElement('form');
 option.setAttribute('id', 'option');
 option.style.width = '350px';
 option.style.height = '350px';
@@ -105,6 +105,7 @@ addBook.addEventListener('mousedown', () =>{
             container.style.filter = 'brightness(1)';
             addBook.style.backgroundColor = 'white';
             addBook.style.border = '5px solid white';
+
             while (option.hasChildNodes()) {
                 option.removeChild(option.firstChild);
             };
@@ -134,18 +135,10 @@ function addBookToLibrary(book) {
     myLibrary.push(book.title,book.author,book.pages, book.read);
 }
 
-//const book1 = new Book ("The hobbit", "JRR Tolkien", "365", true);
-
-//addBookToLibrary(book1);
-
 submit.addEventListener('click', () => {
     sample[i] = new Book (inputTitle.value, inputAuthor.value, inputPages.value, checkbox.checked);
     addBookToLibrary(sample[i]);
     console.log(myLibrary);
-    //console.log(sample[i].title);
-    /* var a = sample[i].title;
-    var b = sample[i].author;
-    var c = sample[i].pages; */
 
     body.removeChild(option);
     body.style.backgroundColor = '#60a5fa';
@@ -183,10 +176,11 @@ submit.addEventListener('click', () => {
 
     const entryRead = document.createElement('div');
     if (checkbox.checked == true) {
-        entryRead.innerText = "Yes";
+        entryRead.innerText = 'YES'
     } else {
-        entryRead.innerText = "No";
+        entryRead.innerText = 'NO'
     }
+    
     book.appendChild(entryRead);
 
     i++;
@@ -208,10 +202,43 @@ submit.addEventListener('click', () => {
 
         let editArr = document.querySelectorAll('#edit');
         let sampArr1 = Array.from(editArr);
-        //console.log(sampArr1.indexOf(edit));
         var editPos = sampArr1.indexOf(edit);
 
-        //console.log(a,b,c);
+        const close1 = document.querySelector('svg');
+        close1.addEventListener('click', () => {
+            book.innerHTML = 'TITLE:';
+
+            const entryTitle = document.createElement('div');
+            entryTitle.innerText = myLibrary[editPos*4];
+            book.appendChild(entryTitle);
+            
+            book.innerHTML += 'AUTHOR:';
+
+            const entryAuthor = document.createElement('div');
+            entryAuthor.innerText = myLibrary[editPos*4 + 1];
+            book.appendChild(entryAuthor);
+
+            book.innerHTML += 'PAGES:';
+
+            const entryPages = document.createElement('div');
+            entryPages.innerText = myLibrary[editPos*4 + 2];
+            book.appendChild(entryPages);
+
+            book.innerHTML += 'READ?';
+
+            const entryRead = document.createElement('div');
+            if (checkbox.checked == true) {
+                entryRead.innerText = "Yes";
+                myLibrary[editPos*4 + 3] = true;
+            } else {
+                entryRead.innerText = "No";
+                myLibrary[editPos*4 + 3] = false;
+            }
+            book.appendChild(entryRead);
+
+            book.appendChild(edit);
+            book.appendChild(del);
+        })
 
         const title = document.createElement('div');
         title.innerText += 'TITLE';
@@ -253,10 +280,6 @@ submit.addEventListener('click', () => {
         save.setAttribute('id','save');
         save.innerText = 'SAVE';
         option.appendChild(save);
-
-        /* save.addEventListener('mouseover', () => {
-            console.log(sampArr1.indexOf(edit));
-        }); */
 
         save.addEventListener('click', () => {
             body.removeChild(option);
@@ -342,16 +365,10 @@ submit.addEventListener('click', () => {
     book.appendChild(del);
 
     del.addEventListener('mouseup', () => {
-        //console.log(del.value);
-        
         let delArr = document.querySelectorAll('#del');
         let sampArr = Array.from(delArr);
-        //console.log(sampArr);
         let delPos = sampArr.indexOf(del) + 1;
-        console.log(delPos);
-        console.log(4*delPos-4)
         myLibrary.splice(4*delPos-4,4);
-        console.log(myLibrary);
 
         books.removeChild(book);
     });
