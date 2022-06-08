@@ -143,9 +143,9 @@ submit.addEventListener('click', () => {
     addBookToLibrary(sample[i]);
     console.log(myLibrary);
     //console.log(sample[i].title);
-    var a = sample[i].title;
+    /* var a = sample[i].title;
     var b = sample[i].author;
-    var c = sample[i].pages;
+    var c = sample[i].pages; */
 
     body.removeChild(option);
     body.style.backgroundColor = '#60a5fa';
@@ -160,13 +160,11 @@ submit.addEventListener('click', () => {
 
     const book = document.createElement('div')
     book.setAttribute('class','book');
-    book.setAttribute('id', 'entry'+i);
 
     book.innerHTML = 'TITLE:';
 
     const entryTitle = document.createElement('div');
     entryTitle.innerText = inputTitle.value;
-    entryTitle.setAttribute('id','title'+i);
     book.appendChild(entryTitle);
 
     book.innerHTML += 'AUTHOR:';
@@ -197,7 +195,6 @@ submit.addEventListener('click', () => {
     const del = document.createElement('button');
 
     edit.setAttribute('id', 'edit');
-    edit.setAttribute('value',i)
     edit.innerText = 'EDIT'
     book.appendChild(edit);
 
@@ -209,40 +206,54 @@ submit.addEventListener('click', () => {
         addBook.style.border = '5px solid yellow';
         option.innerHTML += '<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" /></svg>'
 
-        //console.log(a);
+        let editArr = document.querySelectorAll('#edit');
+        let sampArr1 = Array.from(editArr);
+        //console.log(sampArr1.indexOf(edit));
+        var editPos = sampArr1.indexOf(edit);
+
+        //console.log(a,b,c);
 
         const title = document.createElement('div');
         title.innerText += 'TITLE';
-        inputTitle.value = a;
+        inputTitle.value = myLibrary[editPos*4];
         option.appendChild(title);
         option.appendChild(inputTitle);
 
         const author = document.createElement('div');
         author.innerText += 'AUTHOR';
-        inputAuthor.value = b;
+        inputAuthor.value = myLibrary[editPos*4+1];
         option.appendChild(author);
         option.appendChild(inputAuthor);
 
         const pages = document.createElement('div');
         pages.innerText += 'PAGES';
-        inputPages.value = c;
+        inputPages.value = myLibrary[editPos*4+2];
         option.appendChild(pages);
         option.appendChild(inputPages);
 
         const read = document.createElement('div');
         read.innerText += 'READ ?';
         option.appendChild(read);
-        option.appendChild(readStat);
+        if (myLibrary[editPos*4+3] == false) {
+            readResult.innerText = 'NO';
+            readResult.style.color = 'red';
+            readStat.appendChild(inputRead);
+            readStat.appendChild(readResult);
+            option.appendChild(readStat);
+        } else {
+            readResult.innerText = 'YES';
+            readResult.style.color = 'BLUE';
+            checkbox.click();
+            readStat.appendChild(inputRead);
+            readStat.appendChild(readResult);
+            option.appendChild(readStat);
+        }
 
         const save = document.createElement('button');
         save.setAttribute('id','save');
         save.innerText = 'SAVE';
         option.appendChild(save);
 
-        let editArr = document.querySelectorAll('#edit');
-        let sampArr1 = Array.from(editArr);
-        console.log(sampArr1.indexOf(edit));
-        var editPos = sampArr1.indexOf(edit);
         /* save.addEventListener('mouseover', () => {
             console.log(sampArr1.indexOf(edit));
         }); */
@@ -265,7 +276,6 @@ submit.addEventListener('click', () => {
 
             const entryTitle = document.createElement('div');
             entryTitle.innerText = inputTitle.value;
-            entryTitle.setAttribute('id','title'+i);
             book.appendChild(entryTitle);
             myLibrary[editPos*4] = inputTitle.value;
 
@@ -303,6 +313,8 @@ submit.addEventListener('click', () => {
             inputPages.value = "";
             checkbox.checked = false;
             readResult.innerText = 'NO';
+
+            console.log(myLibrary);
         });
 
         const close = document.querySelector('svg');
@@ -326,7 +338,6 @@ submit.addEventListener('click', () => {
     });
 
     del.setAttribute('id', 'del');
-    del.setAttribute('value',i)
     del.innerText = 'DELETE';
     book.appendChild(del);
 
@@ -343,9 +354,6 @@ submit.addEventListener('click', () => {
         console.log(myLibrary);
 
         books.removeChild(book);
-
-        i--;
-        del.setAttribute('value',i);
     });
 
     books.appendChild(book);
