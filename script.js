@@ -1,4 +1,6 @@
 var stat = 0;
+var i = 0;
+var sample = {};
 
 const body = document.querySelector('body');
 const container = document.querySelector('.container');
@@ -124,7 +126,7 @@ function Book(title, author, pages, read) {
     this.pages = pages;
     this.read = read;
     this.info = function () {
-
+        return (title+' By '+author);
     }
 }
 
@@ -136,13 +138,14 @@ function addBookToLibrary(book) {
 
 //addBookToLibrary(book1);
 
-var i = 1;
-
 submit.addEventListener('click', () => {
-    var sample1 = new Book (inputTitle.value, inputAuthor.value, inputPages.value, checkbox.checked);
-    addBookToLibrary(sample1);
+    sample[i] = new Book (inputTitle.value, inputAuthor.value, inputPages.value, checkbox.checked);
+    addBookToLibrary(sample[i]);
     console.log(myLibrary);
-    console.log(checkbox.checked);
+    //console.log(sample[i].title);
+    var a = sample[i].title;
+    var b = sample[i].author;
+    var c = sample[i].pages;
 
     body.removeChild(option);
     body.style.backgroundColor = '#60a5fa';
@@ -163,6 +166,7 @@ submit.addEventListener('click', () => {
 
     const entryTitle = document.createElement('div');
     entryTitle.innerText = inputTitle.value;
+    entryTitle.setAttribute('id','title'+i);
     book.appendChild(entryTitle);
 
     book.innerHTML += 'AUTHOR:';
@@ -187,20 +191,150 @@ submit.addEventListener('click', () => {
     }
     book.appendChild(entryRead);
 
+    i++;
+
     const edit = document.createElement('button');
     const del = document.createElement('button');
 
     edit.setAttribute('id', 'edit');
+    edit.setAttribute('value',i)
     edit.innerText = 'EDIT'
     book.appendChild(edit);
 
-    
+    edit.addEventListener('click', () => {
+        container.style.filter = 'brightness(0.7)';
+        body.style.backgroundColor = '#94a3b8';
+        body.appendChild(option);
+        addBook.style.backgroundColor = 'yellow';
+        addBook.style.border = '5px solid yellow';
+        option.innerHTML += '<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" /></svg>'
+
+        //console.log(a);
+
+        const title = document.createElement('div');
+        title.innerText += 'TITLE';
+        inputTitle.value = a;
+        option.appendChild(title);
+        option.appendChild(inputTitle);
+
+        const author = document.createElement('div');
+        author.innerText += 'AUTHOR';
+        inputAuthor.value = b;
+        option.appendChild(author);
+        option.appendChild(inputAuthor);
+
+        const pages = document.createElement('div');
+        pages.innerText += 'PAGES';
+        inputPages.value = c;
+        option.appendChild(pages);
+        option.appendChild(inputPages);
+
+        const read = document.createElement('div');
+        read.innerText += 'READ ?';
+        option.appendChild(read);
+        option.appendChild(readStat);
+
+        const save = document.createElement('button');
+        save.setAttribute('id','save');
+        save.innerText = 'SAVE';
+        option.appendChild(save);
+
+        save.addEventListener('click', () => {
+            body.removeChild(option);
+            body.style.backgroundColor = '#60a5fa';
+            container.style.filter = 'brightness(1)';
+            addBook.style.backgroundColor = 'white';
+            addBook.style.border = '5px solid white';
+            while (option.hasChildNodes()) {
+                option.removeChild(option.firstChild);
+            };
+
+            while (book.hasChildNodes()) {
+                book.removeChild(book.firstChild);
+            };
+
+            book.innerHTML = 'TITLE:';
+
+            const entryTitle = document.createElement('div');
+            entryTitle.innerText = inputTitle.value;
+            entryTitle.setAttribute('id','title'+i);
+            book.appendChild(entryTitle);
+
+            book.innerHTML += 'AUTHOR:';
+
+            const entryAuthor = document.createElement('div');
+            entryAuthor.innerText = inputAuthor.value;
+            book.appendChild(entryAuthor);
+
+            book.innerHTML += 'PAGES:';
+
+            const entryPages = document.createElement('div');
+            entryPages.innerText = inputPages.value;
+            book.appendChild(entryPages);
+
+            book.innerHTML += 'READ?';
+
+            const entryRead = document.createElement('div');
+            if (checkbox.checked == true) {
+                entryRead.innerText = "Yes";
+            } else {
+                entryRead.innerText = "No";
+            }
+            book.appendChild(entryRead);
+
+            book.appendChild(edit);
+            book.appendChild(del);
+
+            inputTitle.value = "";
+            inputAuthor.value = "";
+            inputPages.value = "";
+            checkbox.checked = false;
+            readResult.innerText = 'NO';
+        });
+
+        const close = document.querySelector('svg');
+        close.addEventListener('click', () => {
+            body.removeChild(option);
+            body.style.backgroundColor = '#60a5fa';
+            container.style.filter = 'brightness(1)';
+            addBook.style.backgroundColor = 'white';
+            addBook.style.border = '5px solid white';
+            while (option.hasChildNodes()) {
+                option.removeChild(option.firstChild);
+            };
+            inputTitle.value = "";
+            inputAuthor.value = "";
+            inputPages.value = "";
+            checkbox.checked = false;
+            stat = 0;
+            readResult.innerText = 'NO';
+        });
+    });
+
     del.setAttribute('id', 'del');
+    del.setAttribute('value',i)
     del.innerText = 'DELETE';
     book.appendChild(del);
 
+    del.addEventListener('mouseup', () => {
+        //console.log(del.value);
+        
+        let samp = document.querySelectorAll('#del');
+        let sampArr = Array.from(samp);
+        //console.log(sampArr);
+        let delPos = sampArr.indexOf(del) + 1;
+        console.log(delPos);
+        console.log(4*delPos-4)
+        myLibrary.splice(4*delPos-4,4);
+        console.log(myLibrary);
+
+        books.removeChild(book);
+
+        i--;
+        del.setAttribute('value',i);
+    });
+
     books.appendChild(book);
-    i++;
     
     inputTitle.value = "";
     inputAuthor.value = "";
