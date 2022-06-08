@@ -201,7 +201,7 @@ submit.addEventListener('click', () => {
     edit.innerText = 'EDIT'
     book.appendChild(edit);
 
-    edit.addEventListener('click', () => {
+    edit.addEventListener('mouseup', () => {
         container.style.filter = 'brightness(0.7)';
         body.style.backgroundColor = '#94a3b8';
         body.appendChild(option);
@@ -239,6 +239,14 @@ submit.addEventListener('click', () => {
         save.innerText = 'SAVE';
         option.appendChild(save);
 
+        let editArr = document.querySelectorAll('#edit');
+        let sampArr1 = Array.from(editArr);
+        console.log(sampArr1.indexOf(edit));
+        var editPos = sampArr1.indexOf(edit);
+        /* save.addEventListener('mouseover', () => {
+            console.log(sampArr1.indexOf(edit));
+        }); */
+
         save.addEventListener('click', () => {
             body.removeChild(option);
             body.style.backgroundColor = '#60a5fa';
@@ -259,26 +267,31 @@ submit.addEventListener('click', () => {
             entryTitle.innerText = inputTitle.value;
             entryTitle.setAttribute('id','title'+i);
             book.appendChild(entryTitle);
+            myLibrary[editPos*4] = inputTitle.value;
 
             book.innerHTML += 'AUTHOR:';
 
             const entryAuthor = document.createElement('div');
             entryAuthor.innerText = inputAuthor.value;
             book.appendChild(entryAuthor);
+            myLibrary[editPos*4 + 1] = inputAuthor.value;
 
             book.innerHTML += 'PAGES:';
 
             const entryPages = document.createElement('div');
             entryPages.innerText = inputPages.value;
             book.appendChild(entryPages);
+            myLibrary[editPos*4 + 2] = inputPages.value;
 
             book.innerHTML += 'READ?';
 
             const entryRead = document.createElement('div');
             if (checkbox.checked == true) {
                 entryRead.innerText = "Yes";
+                myLibrary[editPos*4 + 3] = true;
             } else {
                 entryRead.innerText = "No";
+                myLibrary[editPos*4 + 3] = false;
             }
             book.appendChild(entryRead);
 
@@ -309,6 +322,7 @@ submit.addEventListener('click', () => {
             stat = 0;
             readResult.innerText = 'NO';
         });
+        
     });
 
     del.setAttribute('id', 'del');
@@ -319,8 +333,8 @@ submit.addEventListener('click', () => {
     del.addEventListener('mouseup', () => {
         //console.log(del.value);
         
-        let samp = document.querySelectorAll('#del');
-        let sampArr = Array.from(samp);
+        let delArr = document.querySelectorAll('#del');
+        let sampArr = Array.from(delArr);
         //console.log(sampArr);
         let delPos = sampArr.indexOf(del) + 1;
         console.log(delPos);
