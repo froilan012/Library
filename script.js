@@ -20,6 +20,7 @@ const inputAuthor = document.createElement('input');
 const inputPages = document.createElement('input');
 const submit = document.createElement('button');
 const book = document.createElement('div');
+book.setAttribute('id', 'test1');
 book.setAttribute('class','book');
 
 const inputRead = document.createElement('label');
@@ -174,12 +175,61 @@ submit.addEventListener('click', () => {
 
     book.innerHTML += 'READ?';
 
+    const inputRead1 = document.createElement('label');
+    inputRead1.setAttribute('class','switch');
+    inputRead1.setAttribute('id','test');
+    const checkbox1 = document.createElement('input');
+    checkbox1.setAttribute('type','checkbox');
+    const sliderRound1 = document.createElement('span');
+    sliderRound1.setAttribute('class','slider round');
+
+    const readResult1 = document.createElement('div');
+    readResult1.innerText = 'NO';
+    readResult1.style.color = 'red';
+
+    inputRead1.appendChild(checkbox1);
+    inputRead1.appendChild(sliderRound1);
+
     const entryRead = document.createElement('div');
+    entryRead.style.display = 'flex';
+    entryRead.style.alignItems = 'center';
+    entryRead.style.gap = '10px';
     if (checkbox.checked == true) {
-        entryRead.innerText = 'YES'
+        readResult1.innerText = 'YES';
+        readResult1.style.color = 'blue';
+        checkbox1.click();
+        entryRead.appendChild(inputRead1);
+        entryRead.appendChild(readResult1);
     } else {
-        entryRead.innerText = 'NO'
+        readResult1.innerText = 'NO';
+        readResult1.style.color = 'red';
+        entryRead.appendChild(inputRead1);
+        entryRead.appendChild(readResult1);
     }
+
+    sliderRound1.addEventListener('mouseup', () => {
+        let delArr = document.querySelectorAll('#del');
+        let sampArr = Array.from(delArr);
+        let delPos = sampArr.indexOf(del) + 1;
+
+        if (myLibrary[4*delPos - 1]) {
+            myLibrary[4*delPos - 1] = false;
+        } else {
+            myLibrary[4*delPos - 1] = true;
+        }
+        console.log(myLibrary);
+    });
+
+    checkbox1.addEventListener('click', () => {
+        if (checkbox1.checked) {
+            readResult1.innerText = 'YES';
+            readResult1.style.color = 'blue';
+        } else {
+            readResult1.innerText = 'NO';
+            readResult1.style.color = 'red';
+        }
+        entryRead.appendChild(readResult1);
+    })
     
     book.appendChild(entryRead);
 
@@ -198,47 +248,12 @@ submit.addEventListener('click', () => {
         body.appendChild(option);
         addBook.style.backgroundColor = 'yellow';
         addBook.style.border = '5px solid yellow';
-        option.innerHTML += '<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" /></svg>'
 
         let editArr = document.querySelectorAll('#edit');
         let sampArr1 = Array.from(editArr);
         var editPos = sampArr1.indexOf(edit);
 
-        const close1 = document.querySelector('svg');
-        close1.addEventListener('click', () => {
-            book.innerHTML = 'TITLE:';
-
-            const entryTitle = document.createElement('div');
-            entryTitle.innerText = myLibrary[editPos*4];
-            book.appendChild(entryTitle);
-            
-            book.innerHTML += 'AUTHOR:';
-
-            const entryAuthor = document.createElement('div');
-            entryAuthor.innerText = myLibrary[editPos*4 + 1];
-            book.appendChild(entryAuthor);
-
-            book.innerHTML += 'PAGES:';
-
-            const entryPages = document.createElement('div');
-            entryPages.innerText = myLibrary[editPos*4 + 2];
-            book.appendChild(entryPages);
-
-            book.innerHTML += 'READ?';
-
-            const entryRead = document.createElement('div');
-            if (checkbox.checked == true) {
-                entryRead.innerText = "Yes";
-                myLibrary[editPos*4 + 3] = true;
-            } else {
-                entryRead.innerText = "No";
-                myLibrary[editPos*4 + 3] = false;
-            }
-            book.appendChild(entryRead);
-
-            book.appendChild(edit);
-            book.appendChild(del);
-        })
+        
 
         const title = document.createElement('div');
         title.innerText += 'TITLE';
@@ -281,6 +296,10 @@ submit.addEventListener('click', () => {
         save.innerText = 'SAVE';
         option.appendChild(save);
 
+        let delArr = document.querySelectorAll('#del');
+        let sampArr = Array.from(delArr);
+        let delPos = sampArr.indexOf(del) + 1;
+
         save.addEventListener('click', () => {
             body.removeChild(option);
             body.style.backgroundColor = '#60a5fa';
@@ -318,14 +337,67 @@ submit.addEventListener('click', () => {
 
             book.innerHTML += 'READ?';
 
+            const inputRead1 = document.createElement('label');
+            inputRead1.setAttribute('class','switch');
+            const checkbox1 = document.createElement('input');
+            checkbox1.setAttribute('type','checkbox');
+            const sliderRound1 = document.createElement('span');
+            sliderRound1.setAttribute('class','slider round');
+
+            const readResult1 = document.createElement('div');
+            readResult1.innerText = 'NO';
+            readResult1.style.color = 'red';
+
+            inputRead1.appendChild(checkbox1);
+            inputRead1.appendChild(sliderRound1);
+
             const entryRead = document.createElement('div');
+            entryRead.style.display = 'flex';
+            entryRead.style.alignItems = 'center';
+            entryRead.style.gap = '10px';
             if (checkbox.checked == true) {
-                entryRead.innerText = "Yes";
-                myLibrary[editPos*4 + 3] = true;
+                readResult1.innerText = 'YES';
+                readResult1.style.color = 'blue';
+                checkbox1.click();
+                entryRead.appendChild(inputRead1);
+                entryRead.appendChild(readResult1);
+                myLibrary[4*delPos-1] = true;
             } else {
-                entryRead.innerText = "No";
-                myLibrary[editPos*4 + 3] = false;
+                readResult1.innerText = 'NO';
+                readResult1.style.color = 'red';
+                entryRead.appendChild(inputRead1);
+                entryRead.appendChild(readResult1);
+                myLibrary[4*delPos-1] = false;
             }
+
+            checkbox1.addEventListener('click', () => {
+                if (checkbox1.checked) {
+                    readResult1.innerText = 'YES';
+                    readResult1.style.color = 'blue';
+                } else {
+                    readResult1.innerText = 'NO';
+                    readResult1.style.color = 'red';
+                }
+                entryRead.appendChild(readResult1);
+            })
+
+            sliderRound1.addEventListener('mouseup', () => {
+                let delArr = document.querySelectorAll('#del');
+                let sampArr = Array.from(delArr);
+                let delPos = sampArr.indexOf(del) + 1;
+        
+                console.log(delPos);
+        
+                if (myLibrary[4*delPos - 1]) {
+                    myLibrary[4*delPos - 1] = false;
+                } else {
+                    myLibrary[4*delPos - 1] = true;
+                }
+                console.log(myLibrary);
+                console.log(myLibrary[4*delPos - 1]);
+                
+            });
+            
             book.appendChild(entryRead);
 
             book.appendChild(edit);
@@ -336,28 +408,8 @@ submit.addEventListener('click', () => {
             inputPages.value = "";
             checkbox.checked = false;
             readResult.innerText = 'NO';
-
             console.log(myLibrary);
         });
-
-        const close = document.querySelector('svg');
-        close.addEventListener('click', () => {
-            body.removeChild(option);
-            body.style.backgroundColor = '#60a5fa';
-            container.style.filter = 'brightness(1)';
-            addBook.style.backgroundColor = 'white';
-            addBook.style.border = '5px solid white';
-            while (option.hasChildNodes()) {
-                option.removeChild(option.firstChild);
-            };
-            inputTitle.value = "";
-            inputAuthor.value = "";
-            inputPages.value = "";
-            checkbox.checked = false;
-            stat = 0;
-            readResult.innerText = 'NO';
-        });
-        
     });
 
     del.setAttribute('id', 'del');
